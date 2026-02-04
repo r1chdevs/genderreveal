@@ -226,6 +226,39 @@
       border-radius: 16px;
     }
 
+    /* Botón flecha de apertura */
+    .arrow-btn{
+      margin-top: 10px;
+      width: 64px;
+      height: 64px;
+      border-radius: 999px;
+      border: 0;
+      cursor: pointer;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      background: linear-gradient(
+        180deg,
+        rgba(181,140,106,1),
+        rgba(162,122,92,1)
+      );
+      color: #fff;
+
+      box-shadow: 0 18px 40px rgba(181,140,106,.35);
+      transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+    }
+
+    .arrow-btn:hover{
+      filter: brightness(1.05);
+      box-shadow: 0 22px 48px rgba(181,140,106,.45);
+    }
+
+    .arrow-btn:active{
+      transform: scale(.94);
+    }
+
     .cover{
       position:fixed;
       inset:0;
@@ -456,6 +489,15 @@
       text-shadow: 0 12px 26px rgba(46,31,23,.10);
       line-height: 1.1;
     }
+    .countdown-title{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 900;
+      font-size: 13px;
+      letter-spacing: .3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
     .countdown-sub{
       position:relative;
       margin-top: 8px;
@@ -629,6 +671,12 @@
       *{animation:none!important; transition:none!important;}
       html{scroll-behavior:auto;}
     }
+
+    .location-btn-wrap{
+      display:flex;
+      justify-content:center;
+      margin-top: 12px;
+    }
   </style>
 </head>
 
@@ -647,7 +695,17 @@
         Hay una noticia hermosa y queremos compartir este momento contigo.
       </div>
 
-      <button class="btn primary" id="coverOpen">Ver invitación</button>
+      <button class="arrow-btn" id="coverOpen" aria-label="Abrir invitación">
+        <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
+          <path fill="currentColor"
+            d="M8 5l7 7-7 7"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"/>
+        </svg>
+      </button>
     </div>
   </div>
 
@@ -750,6 +808,7 @@
 
             <!-- ✅ Conteo regresivo AHORA va después de la fecha -->
             <div class="countdown-wrap">
+              <div class="countdown-title">✨ Solo falta… ✨</div>
               <div class="countdown-big" id="countdown">-- : -- : -- : --</div>
               <div class="countdown-sub" id="countdownSub">Días : Horas : Minutos : Segundos</div>
             </div>
@@ -758,17 +817,21 @@
           <div class="box">
             <div class="label">📍 Lugar</div>
             <div class="value" id="placeText">Tumbaco</div>
-            <div class="value small" id="addressText">Dirección: Gonzalo Pizarro & C. Rumiñahui</div>
-          </div>
-        </div>
+            <div class="value small" id="addressText">
+              Dirección: Gonzalo Pizarro & C. Rumiñahui
+            </div>
 
-        <div class="action-row">
-          <a class="btn primary icon" id="gmapsBtn" target="_blank" rel="noopener"
-             style="text-decoration:none;" aria-label="Abrir ubicación">
-            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
-              <path fill="currentColor" d="M12 22s7-6.1 7-12.2C19 5.5 15.9 2.5 12 2.5S5 5.5 5 9.8C5 15.9 12 22 12 22zm0-9.5a2.7 2.7 0 1 1 0-5.4 2.7 2.7 0 0 1 0 5.4z"/>
-            </svg>
-          </a>
+            <!-- ✅ Botón de ubicación dentro del bloque -->
+            <div class="location-btn-wrap">
+              <a class="btn primary icon" id="gmapsBtn" target="_blank" rel="noopener"
+                aria-label="Abrir ubicación">
+                <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                  <path fill="currentColor"
+                    d="M12 22s7-6.1 7-12.2C19 5.5 15.9 2.5 12 2.5S5 5.5 5 9.8C5 15.9 12 22 12 22zm0-9.5a2.7 2.7 0 1 1 0-5.4 2.7 2.7 0 0 1 0 5.4z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
         </div>
 
         <div class="divider"></div>
@@ -873,7 +936,7 @@
 
   const CONFIG = {
     coverMsg: "Hay una noticia hermosa y queremos compartir este momento contigo.",
-    event: { month: 2, day: 28, hour: 15, minute: 0 },
+    event: { year: 2026, month: 2, day: 28, hour: 15, minute: 0 },
     googleMapsUrl: "https://maps.app.goo.gl/7CR78W1XiU7DzgZH6",
     rsvpUrl: ""
   };
@@ -943,15 +1006,12 @@
     function pad2(n){ return String(n).padStart(2,"0"); }
 
     function getTargetDate(){
-      const now = new Date();
-      let year = now.getFullYear();
       const m = CONFIG.event.month - 1;
-      let target = new Date(year, m, CONFIG.event.day, CONFIG.event.hour, CONFIG.event.minute, 0);
-      if(target.getTime() < now.getTime()){
-        target = new Date(year + 1, m, CONFIG.event.day, CONFIG.event.hour, CONFIG.event.minute, 0);
-      }
-      return target;
+      // ✅ usa el año fijo si existe
+      const y = CONFIG.event.year ?? new Date().getFullYear();
+      return new Date(y, m, CONFIG.event.day, CONFIG.event.hour, CONFIG.event.minute, 0);
     }
+
 
     const target = getTargetDate();
 
@@ -960,6 +1020,7 @@
       const sub = $("countdownSub");
       if(!el) return;
 
+      const target = getTargetDate(); // ✅ aquí dentro
       const now = new Date();
       let diff = target.getTime() - now.getTime();
 
@@ -975,7 +1036,7 @@
       const mins = Math.floor((totalSeconds % 3600) / 60);
       const secs = totalSeconds % 60;
 
-      el.textContent = `${pad2(days)} : ${pad2(hours)} : ${pad2(mins)} : ${pad2(secs)}`;
+      el.textContent = `${String(days).padStart(2,"0")} : ${String(hours).padStart(2,"0")} : ${String(mins).padStart(2,"0")} : ${String(secs).padStart(2,"0")}`;
       if(sub) sub.textContent = "Días : Horas : Minutos : Segundos";
     }
     tickCountdown();
