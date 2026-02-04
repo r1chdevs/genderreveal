@@ -1,493 +1,1064 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Invitación – Revelación de Género ✨</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Invitación — Revelación de Género</title>
 
-<style>
-:root{
-  --bgA:#070b18;
-  --bgB:#142055;
-  --text:#f6f7ff;
-  --muted:rgba(246,247,255,.75);
-  --cardA:rgba(255,255,255,.12);
-  --cardB:rgba(255,255,255,.06);
-  --stroke:rgba(255,255,255,.18);
-  --accent:#b6a7ff;
-  --accent2:#9ee7ff;
-}
+  <style>
+    :root{
+      --bg:#f7f2ea;
+      --paper:#ffffffee;
+      --ink:#3b2f2a;
+      --muted:#6b5b54;
+      --line:#e6ddd3;
+      --shadow:0 18px 50px rgba(46,31,23,.12);
+      --accent:#b58c6a;
+      --accent2:#d9bca2;
+      --btn:#b58c6a;
+      --btnText:#fff;
+      --radius:26px;
 
-*{box-sizing:border-box}
-html,body{width:100%;height:100%;overflow:hidden}
+      --glass: rgba(255,255,255,.70);
+      --glass2: rgba(255,255,255,.82);
+      --ring: rgba(181,140,106,.18);
+    }
 
-body{
-  margin:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  color:var(--text);
-  padding:
-    calc(12px + env(safe-area-inset-top))
-    12px
-    calc(12px + env(safe-area-inset-bottom))
-    12px;
-  background:
-    radial-gradient(1200px 700px at 20% 20%, rgba(182,167,255,.25), transparent 60%),
-    radial-gradient(900px 600px at 80% 12%, rgba(158,231,255,.22), transparent 60%),
-    radial-gradient(1200px 900px at 50% 95%, rgba(255,255,255,.06), transparent 55%),
-    linear-gradient(180deg,var(--bgA),var(--bgB));
-}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 520px at 50% 0%, rgba(181,140,106,.18), transparent 60%),
+        radial-gradient(900px 450px at 85% 15%, rgba(217,188,162,.22), transparent 65%),
+        radial-gradient(900px 450px at 15% 20%, rgba(217,188,162,.14), transparent 65%),
+        var(--bg);
+      overflow-x:hidden;
+    }
 
-/* FX */
-.fx-layer{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:999;
-  overflow:hidden;
-}
-.fx{
-  position:fixed;
-  font-size:22px;
-  filter: drop-shadow(0 10px 16px rgba(0,0,0,.25));
-  animation: fly var(--dur) ease-out forwards;
-}
-@keyframes fly{
-  0%{ transform: translate(var(--x),var(--y)) scale(.85); opacity:0; }
-  12%{ opacity:1; }
-  100%{
-    transform:
-      translate(calc(var(--x) + var(--dx)), calc(var(--y) + var(--dy)))
-      rotate(var(--r))
-      scale(1.35);
-    opacity:0;
-  }
-}
+    body::before{
+      content:"";
+      position:fixed;
+      inset:-40px;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at 20% 25%, rgba(255,255,255,.35), transparent 40%),
+        radial-gradient(circle at 80% 10%, rgba(255,255,255,.25), transparent 45%),
+        radial-gradient(circle at 70% 85%, rgba(255,255,255,.22), transparent 48%),
+        radial-gradient(circle at 10% 80%, rgba(255,255,255,.18), transparent 52%);
+      filter: blur(8px);
+      opacity:.9;
+      z-index:-2;
+    }
 
-/* lock container */
-.lock{
-  position:relative;
-  width:min(900px, 96vw);
-  height:min(680px, 86svh); /* ✅ más alto general, sin depender de fit */
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
+    .container{
+      width:min(980px, 92vw);
+      margin: 22px auto 80px;
+      position:relative;
+    }
 
-/* OSO */
-.seal-wrap{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:12px;
-  z-index:6;
-  opacity:1;
-  transform: translateY(0) scale(1);
-  transition: opacity .35s ease, transform .35s ease;
-}
-.seal-wrap.hide{
-  opacity:0;
-  transform: translateY(8px) scale(.92);
-  pointer-events:none;
-}
-.seal{
-  width:104px;height:104px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:42px;cursor:pointer;user-select:none;
-  background:
-    radial-gradient(circle at 30% 30%, rgba(255,255,255,.18), rgba(255,255,255,.06)),
-    radial-gradient(circle at 70% 70%, rgba(182,167,255,.22), rgba(158,231,255,.10));
-  border:1px solid rgba(255,255,255,.20);
-  box-shadow: 0 34px 90px rgba(0,0,0,.45), 0 0 0 10px rgba(255,255,255,.04);
-  transition: transform .18s ease;
-}
-.seal:hover{ transform: scale(1.06); }
-.seal:active{ transform: scale(.98); }
-.lock-hint{
-  text-align:center;
-  color:rgba(246,247,255,.78);
-  font-size:13px; line-height:1.35;
-  max-width:320px; padding:0 8px;
-}
-.lock-hint b{ color:#fff; }
+    .card{
+      background: var(--paper);
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      overflow:hidden;
 
-/* INVITE */
-.invite{
-  position:absolute;
-  inset:0;
-  width:min(900px, 96vw);
-  margin:auto;
-  border-radius:28px;
-  background: linear-gradient(180deg, var(--cardA), var(--cardB));
-  border:1px solid var(--stroke);
-  backdrop-filter: blur(14px);
-  box-shadow: 0 30px 90px rgba(0,0,0,.35);
+      transform: translateY(10px) scale(.985);
+      opacity: .01;
+      filter: blur(10px);
+      transition: transform .75s cubic-bezier(.2,.9,.2,1),
+                  opacity .75s ease,
+                  filter .75s ease;
+    }
+    .card.reveal{
+      transform: translateY(0) scale(1);
+      opacity: 1;
+      filter: blur(0);
+    }
 
-  opacity:0;
-  transform: translateY(14px) scale(.98);
-  pointer-events:none;
-  transition: opacity .7s ease, transform .7s ease;
+    /* ✅ Solo para "Adam y Nembihu" (más grande) */
+    .script-names{
+      font-family: "Lucida Handwriting";
+      font-style: italic;
+      font-weight: 700;
+      letter-spacing: -.15px;
+      font-size: 5px;
+      line-height: 1.05;
+      text-shadow: 0 10px 24px rgba(46,31,23,.10);
+    }
 
-  /* ✅ importante: por defecto NO scroll */
-  overflow:hidden;
-}
+    .hero-band{
+      position:relative;
+      padding: 26px 22px 18px;
+      background:
+        radial-gradient(600px 220px at 20% 10%, rgba(181,140,106,.20), transparent 60%),
+        radial-gradient(620px 260px at 80% 0%, rgba(217,188,162,.22), transparent 62%),
+        linear-gradient(180deg, rgba(255,255,255,.72), rgba(255,255,255,.55));
+      border-bottom:1px solid var(--line);
+    }
+    .hero-band::after{
+      content:"";
+      position:absolute;
+      left:-20%;
+      right:-20%;
+      bottom:-1px;
+      height:70px;
+      background: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,.85));
+      transform: translateY(20px);
+      filter: blur(14px);
+      pointer-events:none;
+    }
 
-.invite.show{
-  opacity:1;
-  transform: translateY(0) scale(1);
-  pointer-events:auto;
-}
+    .section{
+      padding: 26px 22px;
+      border-top:1px solid var(--line);
+      position:relative;
+    }
+    .section:first-child{ border-top:0; }
 
-/* decor */
-.invite .glow{
-  position:absolute;
-  inset:-60px -80px auto -80px;
-  height:240px;
-  background:
-    radial-gradient(900px 280px at 50% 30%, rgba(182,167,255,.12), transparent 65%),
-    radial-gradient(700px 240px at 30% 40%, rgba(255,122,182,.14), transparent 60%),
-    radial-gradient(700px 240px at 70% 40%, rgba(121,198,255,.14), transparent 60%);
-  filter: blur(2px);
-  pointer-events:none;
-}
-.invite .noise{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  background: radial-gradient(circle at 1px 1px, rgba(255,255,255,.06) 1px, transparent 1px);
-  background-size: 18px 18px;
-  opacity:.25;
-  mix-blend-mode: overlay;
-}
+    .section-head{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      margin-bottom: 12px;
+      flex-wrap:nowrap;
+    }
+    .badge-ico{
+      width:34px;height:34px;
+      border-radius: 999px;
+      display:grid;
+      place-items:center;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.70);
+      box-shadow: 0 14px 28px rgba(46,31,23,.07);
+      font-size: 18px;
+      user-select:none;
+      flex:0 0 auto;
+    }
 
-/* ✅ CONTENIDO SCROLLEABLE SOLO EN MÓVIL */
-.content{
-  position:relative;
-  height:100%;
-  overflow:hidden; /* desktop */
-}
+    /* ✅ Títulos en una sola línea + se ajustan en móvil */
+    .section-title{
+      margin:0;
+      font-size: clamp(18px, 4.8vw, 30px);
+      color: var(--accent);
+      letter-spacing: -.3px;
+      white-space: nowrap;
+      line-height: 1.1;
+      text-align:center;
+    }
 
-/* layout */
-.grid{
-  display:grid;
-  grid-template-columns: 1.2fr .8fr;
-  min-height:100%;
-}
-@media(max-width:860px){
-  .grid{ grid-template-columns:1fr; }
-  .side{ border-left:0!important; border-top:1px solid rgba(255,255,255,.12); }
-}
+    .pill-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:center;
+      margin-bottom: 12px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 12px;
+      border-radius: 999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.70);
+      color: var(--muted);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight:800;
+      font-size: 13px;
+      box-shadow: 0 14px 28px rgba(46,31,23,.06);
+    }
 
-/* sections */
-.hero{ padding:22px 18px 14px; }
-.side{ padding:16px 14px; border-left:1px solid rgba(255,255,255,.12); }
+    .subtitle{
+      text-align:center;
+      margin: 0 auto;
+      max-width: 680px;
+      color: var(--muted);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height:1.55;
+      font-size: 14.5px;
+    }
 
-.topbar{
-  display:flex; align-items:center; justify-content:space-between;
-  gap:10px; flex-wrap:wrap;
-}
-.badge{
-  display:inline-flex; align-items:center; gap:8px;
-  padding:8px 10px; border-radius:999px;
-  border:1px solid rgba(255,255,255,.16);
-  background: rgba(255,255,255,.07);
-  font-weight:800; font-size:12.5px;
-}
-.dot{
-  width:10px;height:10px;border-radius:50%;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  box-shadow: 0 0 16px rgba(182,167,255,.30);
-}
-.ribbon{
-  font-size:11.5px;
-  color:rgba(246,247,255,.72);
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(0,0,0,.10);
-  padding:7px 9px;
-  border-radius:999px;
-}
+    .divider{
+      height:1px;
+      background: linear-gradient(90deg, transparent, var(--line), transparent);
+      margin: 18px auto;
+      width:min(560px, 92%);
+    }
 
-h1{
-  margin:12px 0 8px;
-  font-size: clamp(22px, 7vw, 40px);
-  line-height:1.05;
-  letter-spacing:-.5px;
-}
-.sub{
-  margin:0 0 10px;
-  color:var(--muted);
-  font-size: clamp(12.8px, 3.5vw, 15.5px);
-  line-height:1.45;
-}
+    .btn{
+      border:0;
+      cursor:pointer;
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 900;
+      letter-spacing: .2px;
+      transition: transform .12s ease, filter .2s ease, opacity .2s ease;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:hover{ filter: brightness(1.02); }
+    .btn:active{ transform: scale(.98); }
+    .btn.primary{
+      background: linear-gradient(180deg, rgba(181,140,106,1), rgba(162,122,92,1));
+      color: var(--btnText);
+      box-shadow: 0 14px 32px rgba(181,140,106,.28);
+    }
+    .btn:disabled{
+      opacity:.6;
+      cursor:not-allowed;
+    }
 
-.chips{
-  display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;
-}
-.chip{
-  display:inline-flex; align-items:center; gap:8px;
-  padding:8px 10px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.16);
-  background: rgba(255,255,255,.06);
-  font-size:12.2px;
-  color:rgba(246,247,255,.92);
-}
-.chip b{ color:#fff; }
+    .btn.icon{
+      width: 52px;
+      height: 46px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size: 20px;
+      padding: 0;
+      border-radius: 16px;
+    }
 
-.bigline{
-  margin-top:10px;
-  padding:10px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.14);
-  background:
-    linear-gradient(135deg, rgba(255,122,182,.10), rgba(121,198,255,.10)),
-    rgba(255,255,255,.04);
-  color:rgba(246,247,255,.90);
-  font-weight:700;
-  line-height:1.32;
-  font-size:12.2px;
-}
+    .cover{
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 20px;
+      z-index:9999;
+      background:
+        radial-gradient(1200px 520px at 50% 0%, rgba(181,140,106,.20), transparent 60%),
+        radial-gradient(900px 450px at 85% 15%, rgba(217,188,162,.22), transparent 65%),
+        radial-gradient(900px 450px at 15% 20%, rgba(217,188,162,.14), transparent 65%),
+        var(--bg);
+      transition: opacity .75s ease, transform .75s cubic-bezier(.2,.9,.2,1), filter .75s ease;
+    }
+    .cover.hide{
+      opacity:0;
+      pointer-events:none;
+      transform: scale(1.03);
+      filter: blur(10px);
+    }
+    .cover-card{
+      width:min(560px, 94vw);
+      background: rgba(255,255,255,.80);
+      border:1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: 0 22px 70px rgba(46,31,23,.18);
+      overflow:hidden;
+      padding: 26px 18px 22px;
+      text-align:center;
+      position:relative;
+    }
+    .cover-card::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      border-radius: 24px;
+      background: radial-gradient(420px 160px at 10% 0%, rgba(181,140,106,.18), transparent 60%),
+                  radial-gradient(420px 160px at 90% 0%, rgba(217,188,162,.20), transparent 60%);
+      pointer-events:none;
+    }
+    .cover-title{
+      position:relative;
+      margin:0;
+      font-size: clamp(26px, 6vw, 44px);
+      line-height:1.05;
+      letter-spacing:-.6px;
+    }
+    .cover-sub{
+      position:relative;
+      margin: 10px auto 0;
+      color: var(--muted);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .icons{
+      display:flex;
+      justify-content:center;
+      gap:14px;
+      font-size: 52px;
+      margin: 14px 0 12px;
+      user-select:none;
+      animation: floaty 2.8s ease-in-out infinite;
+      position:relative;
+    }
+    @keyframes floaty{
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(-6px); }
+    }
+    .cover-msg{
+      position:relative;
+      margin: 0 auto 14px;
+      max-width: 420px;
+      color: var(--muted);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height:1.5;
+      font-size: 14px;
+    }
 
-/* panel */
-.panel{
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(0,0,0,.10);
-  border-radius:18px;
-  padding:12px 10px;
-}
-.panel h2{ margin:0 0 8px; font-size:13.5px; letter-spacing:.2px; }
+    .center{ text-align:center; }
+    .big-name{
+      font-size: clamp(30px, 6vw, 56px);
+      margin: 4px 0 6px;
+      letter-spacing: -0.6px;
+    }
+    .names{
+      color: var(--accent);
+      font-size: clamp(22px, 4.8vw, 34px);
+      margin: 10px 0 6px;
+    }
 
-.item{
-  display:flex; justify-content:space-between; gap:12px;
-  padding:9px;
-  border-radius:12px;
-  background: rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.10);
-  margin-bottom:8px;
-}
-.k{ color:rgba(246,247,255,.70); font-size:11.8px; }
-.v{ text-align:right; font-weight:900; font-size:12.2px; }
+    /* ✅ Wrapper para que He or She + flourish SIEMPRE queden debajo y centrados */
+    .heorshe-wrap{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      margin-top:10px;
+    }
+    .heorshe{
+      font-size: clamp(20px, 4.2vw, 34px);
+      color: var(--accent);
+      margin-top: 0;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.70);
+      box-shadow: 0 14px 28px rgba(46,31,23,.06);
+    }
 
-.note{
-  margin-top:8px;
-  padding:10px;
-  border-radius:12px;
-  border:1px dashed rgba(255,255,255,.22);
-  background: rgba(255,255,255,.05);
-  color:rgba(246,247,255,.82);
-  font-size:12px;
-  line-height:1.32;
-}
-.footer{ margin-top:8px; font-size:12px; color:rgba(246,247,255,.62); }
+    .photo-row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      margin: 16px auto 0;
+      width:min(820px, 100%);
+    }
+    @media (max-width: 720px){ .photo-row{ grid-template-columns: 1fr; } }
+    .photo-card{
+      border:1px solid var(--line);
+      border-radius: 22px;
+      overflow:hidden;
+      background: rgba(255,255,255,.72);
+      box-shadow: 0 18px 40px rgba(46,31,23,.08);
+      position:relative;
+      min-height: 190px;
+    }
+    .photo-card .caption{
+      position:absolute;
+      left:12px; right:12px; bottom:12px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.78);
+      border:1px solid rgba(230,221,211,.9);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 800;
+      color: var(--muted);
+      box-shadow: 0 14px 28px rgba(46,31,23,.06);
+      backdrop-filter: blur(10px);
+      font-size: 13px;
+    }
+    .photo-card .art{
+      width:100%;
+      height:100%;
+      display:block;
+    }
 
-/* curtain */
-.curtain{
-  position:absolute; inset:0;
-  display:flex; z-index:4; pointer-events:none;
-}
-.curtain .left,
-.curtain .right{
-  flex:1;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.25)),
-    radial-gradient(700px 240px at 50% 30%, rgba(182,167,255,.18), transparent 60%),
-    rgba(8,12,26,.86);
-  transition: transform .9s cubic-bezier(.2,.9,.2,1);
-  border-right:1px solid rgba(255,255,255,.08);
-}
-.curtain .right{
-  border-right:0;
-  border-left:1px solid rgba(255,255,255,.08);
-}
-.invite.open .curtain .left{ transform: translateX(-102%); }
-.invite.open .curtain .right{ transform: translateX(102%); }
+    .grid2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    @media (max-width: 720px){ .grid2{ grid-template-columns: 1fr; } }
 
-/* ✅ móvil: invite tiene alto fijo y scroll interno */
-@media (max-width: 500px), (max-height: 740px){
-  .lock{
-    height: 92svh; /* ocupa casi toda la pantalla */
-  }
-  .invite{
-    height: 92svh;        /* ✅ aquí “aumentas” alto a lo máximo posible */
-    max-height: 92svh;
-  }
-  .content{
-    overflow:hidden;
-  }
-}
-</style>
+    .box{
+      border:1px solid var(--line);
+      border-radius: 18px;
+      background: var(--glass);
+      padding: 14px 14px;
+      box-shadow: 0 14px 30px rgba(46,31,23,.06);
+    }
+    .label{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .25px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .value{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-size: 15px;
+      font-weight: 900;
+      color: var(--ink);
+      line-height: 1.25;
+    }
+    .value.small{
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .action-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:center;
+      margin-top: 12px;
+    }
+
+    .countdown-wrap{
+      width:100%;
+      margin: 12px auto 0;
+      text-align:center;
+      padding: 12px 10px 10px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.55);
+      border: 1px solid rgba(230,221,211,.85);
+      box-shadow: 0 18px 42px rgba(46,31,23,.06);
+      position:relative;
+      overflow:hidden;
+    }
+    .countdown-wrap::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(520px 160px at 50% 0%, rgba(181,140,106,.18), transparent 60%);
+      pointer-events:none;
+      opacity:.9;
+    }
+    .countdown-big{
+      position:relative;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-weight: 950;
+      letter-spacing: 1px;
+      color: var(--ink);
+      font-size: clamp(22px, 6vw, 40px);
+      text-shadow: 0 12px 26px rgba(46,31,23,.10);
+      line-height: 1.1;
+    }
+    .countdown-sub{
+      position:relative;
+      margin-top: 8px;
+      color: rgba(107,91,84,.78);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing:.2px;
+    }
+
+    /* ✅ Voto SIEMPRE horizontal (incluso en móvil) */
+    .vote-wrap{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      margin-top: 14px;
+    }
+
+    .vote-card{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.76);
+      border-radius: 22px;
+      padding: 16px;
+      text-align:center;
+      box-shadow: 0 18px 42px rgba(46,31,23,.06);
+      position:relative;
+      overflow:hidden;
+    }
+    .vote-card::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background: radial-gradient(420px 160px at 50% 0%, rgba(181,140,106,.10), transparent 62%);
+      pointer-events:none;
+    }
+    .vote-emoji{ position:relative; font-size: 44px; line-height:1; margin-top:2px; }
+    .vote-title{
+      position:relative;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 950;
+      margin: 10px 0 10px;
+      font-size: 16px;
+    }
+
+    @media (max-width: 420px){
+      .vote-card{ padding: 12px; border-radius: 18px; }
+      .vote-emoji{ font-size: 38px; }
+      .btn.primary{ padding: 10px 12px; border-radius: 12px; }
+      .section-title{ font-size: clamp(16px, 4.6vw, 24px); }
+    }
+
+    .result-row{
+      display:flex;
+      justify-content:center;
+      gap:18px;
+      flex-wrap:wrap;
+      margin-top: 14px;
+    }
+    .bubble{
+      width: 98px; height: 98px;
+      border-radius: 999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.78);
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      box-shadow: 0 14px 30px rgba(46,31,23,.08);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      position:relative;
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .bubble::before{
+      content:"";
+      position:absolute;
+      inset:-8px;
+      border-radius:999px;
+      background: radial-gradient(circle at 50% 35%, var(--ring), transparent 60%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .bubble .pct{
+      font-weight: 950;
+      font-size: 22px;
+      color: var(--accent);
+      line-height:1;
+      transition: transform .25s ease;
+      position:relative;
+    }
+    .bubble .cap{
+      position:relative;
+      margin-top:6px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing:.15px;
+    }
+
+    .bubble.selected{
+      border-color: rgba(181,140,106,.75);
+      box-shadow:
+        0 18px 42px rgba(181,140,106,.22),
+        0 0 0 6px rgba(181,140,106,.14);
+      transform: translateY(-2px) scale(1.04);
+    }
+    .bubble.selected .pct{ transform: scale(1.06); }
+
+    .bubble.selected::after{
+      content:"✓";
+      position:absolute;
+      top:-8px;
+      right:-8px;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight: 950;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: rgba(181,140,106,.95);
+      color: #fff;
+      box-shadow: 0 14px 28px rgba(46,31,23,.18);
+      z-index:2;
+    }
+
+    .fx-layer{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:999;
+      overflow:hidden;
+    }
+    .fx{
+      position:fixed;
+      left:0; top:0;
+      font-size:22px;
+      will-change: transform, opacity;
+      filter: drop-shadow(0 10px 16px rgba(0,0,0,.18));
+      animation: fxFloat var(--dur, 900ms) ease-out forwards;
+    }
+    @keyframes fxFloat{
+      0%{ transform: translate(var(--x,0), var(--y,0)) scale(.9); opacity:0; }
+      10%{ opacity:1; }
+      100%{
+        transform: translate(calc(var(--x,0) + var(--dx,0px)),
+                             calc(var(--y,0) + var(--dy,-120px)))
+                   rotate(var(--rot, 12deg))
+                   scale(var(--s, 1.25));
+        opacity: 0;
+      }
+    }
+
+    .tiny{
+      text-align:center;
+      color: rgba(107,91,84,.72);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-size: 12px;
+      margin-top: 14px;
+    }
+
+    /* ✅ Flourish SIEMPRE centrado y debajo */
+    .flourish{
+      width:min(220px, 60%);
+      margin: 0 auto;
+      opacity:.9;
+      display:block;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{animation:none!important; transition:none!important;}
+      html{scroll-behavior:auto;}
+    }
+  </style>
 </head>
 
 <body>
+
   <div class="fx-layer" id="fxLayer"></div>
 
-  <div class="lock" id="lock">
-    <div class="seal-wrap" id="sealWrap">
-      <div class="seal" id="seal" aria-label="Abrir invitación">🧸</div>
-      <div class="lock-hint">
-        Toca el <b>osito</b> para ver la invitación ✨<br>
-        (se viene la sorpresa 🎀🧢)
+  <div class="cover" id="cover">
+    <div class="cover-card">
+      <h1 class="cover-title">Tienes una invitación especial</h1>
+      <div class="cover-sub">Toca el botón para abrirla 💌</div>
+
+      <div class="icons">✉️ 🧸 👶</div>
+
+      <div class="cover-msg" id="coverMsg">
+        Hay una noticia hermosa y queremos compartir este momento contigo.
       </div>
+
+      <button class="btn primary" id="coverOpen">Ver invitación</button>
     </div>
-
-    <main class="invite" id="invite" aria-hidden="true">
-      <div class="glow"></div>
-      <div class="noise"></div>
-
-      <div class="curtain" aria-hidden="true">
-        <div class="left"></div>
-        <div class="right"></div>
-      </div>
-
-      <!-- ✅ Todo el contenido dentro de un contenedor -->
-      <div class="content">
-        <div class="grid">
-          <section class="hero">
-            <div class="topbar">
-              <div class="badge"><span class="dot"></span> Invitación especial</div>
-              <div class="ribbon">Dress code: Neutros 🤍</div>
-            </div>
-
-            <h1>¡Revelación de Género!<br>Descubramos juntos ✨</h1>
-
-            <p class="sub">
-              Queremos compartir contigo un momento súper especial.
-              Habrá risas, comida rica y una sorpresa que no te puedes perder 🎊
-            </p>
-
-            <div class="chips">
-              <div class="chip">📅 <b id="dateText">Sábado, 15 de marzo</b></div>
-              <div class="chip">⏰ <b id="timeText">5:00 PM</b></div>
-              <div class="chip">📍 <b id="placeText">Mi casa</b></div>
-              <div class="chip">🎁 <b id="giftText">Opcional</b></div>
-            </div>
-
-            <div class="bigline">
-              Pista: trae tu mejor energía…<br>
-              la revelación viene con confetti y mucha emoción 🧸🎊
-            </div>
-          </section>
-
-          <aside class="side">
-            <div class="panel">
-              <h2>Detalles del evento</h2>
-
-              <div class="item">
-                <div>
-                  <div class="k">Fecha</div>
-                  <div class="v" id="dateSmall">Sáb 15 Mar</div>
-                </div>
-                <div>
-                  <div class="k">Hora</div>
-                  <div class="v" id="timeSmall">17:00</div>
-                </div>
-              </div>
-
-              <div class="item">
-                <div>
-                  <div class="k">Lugar</div>
-                  <div class="v" id="placeSmall">Mi casa</div>
-                </div>
-                <div>
-                  <div class="k">Color recomendado</div>
-                  <div class="v">Neutros</div>
-                </div>
-              </div>
-
-              <div class="note" id="noteSmall">
-                Llega 15 min antes para no perderte la sorpresa ✨
-              </div>
-
-              <div class="footer">Hecho con cariño 💜</div>
-            </div>
-          </aside>
-        </div>
-      </div>
-    </main>
   </div>
 
-<script>
-const fxLayer = document.getElementById("fxLayer");
-const seal = document.getElementById("seal");
-const sealWrap = document.getElementById("sealWrap");
-const invite = document.getElementById("invite");
+  <div class="container" id="app">
+    <div class="card" id="mainCard">
 
-/* Datos */
-const EVENT = {
-  dateLong: "Sábado, 15 de marzo",
-  dateShort: "Sáb 15 Mar",
-  timeDisplay: "5:00 PM",
-  time24: "17:00",
-  place: "Mi casa",
-  gift: "Opcional",
-  note: "Llega 15 min antes para no perderte la sorpresa ✨"
-};
+      <div class="hero-band" id="invite">
+        <div class="center">
+          <h2 class="big-name" id="babyTitle">¡Revelación de Género!</h2>
 
-document.getElementById("dateText").textContent  = EVENT.dateLong;
-document.getElementById("timeText").textContent  = EVENT.timeDisplay;
-document.getElementById("placeText").textContent = EVENT.place;
-document.getElementById("giftText").textContent  = EVENT.gift;
+          <div class="names script-names" id="parentsNames">Domenica y Richard</div>
 
-document.getElementById("dateSmall").textContent = EVENT.dateShort;
-document.getElementById("timeSmall").textContent = EVENT.time24;
-document.getElementById("placeSmall").textContent= EVENT.place;
-document.getElementById("noteSmall").textContent = EVENT.note;
+          <p class="subtitle" id="inviteText">
+            Como estamos felices de esperar a nuestro bebé, queremos que nos acompañes a conocer si será…
+          </p>
 
-/* Confetti */
-function burstAt(x, y, count=26){
-  const mix = ["🎀","🧢","👶","💗","💙","✨","🎊","🌟","💫"];
-  for(let i=0;i<count;i++){
-    const s = document.createElement("span");
-    s.className="fx";
-    s.textContent = mix[Math.floor(Math.random()*mix.length)];
+          <!-- ✅ He or She + flourish siempre centrado y debajo -->
+          <div class="heorshe-wrap">
+            <div class="heorshe">⭐ He or She ⭐</div>
 
-    const dx = (Math.random()*2 - 1) * 220;
-    const dy = -(90 + Math.random()*220);
-    const rot = (Math.random()*2 - 1) * 55;
-    const dur = 750 + Math.random()*850;
+            <svg class="flourish" viewBox="0 0 240 28" aria-hidden="true">
+              <path d="M10 14c24-10 44-10 70 0s46 10 70 0 46-10 80 0" fill="none" stroke="rgba(181,140,106,.55)" stroke-width="2.4" stroke-linecap="round"/>
+              <circle cx="120" cy="14" r="4" fill="rgba(181,140,106,.55)"/>
+            </svg>
+          </div>
 
-    s.style.setProperty("--x", x + "px");
-    s.style.setProperty("--y", y + "px");
-    s.style.setProperty("--dx", dx + "px");
-    s.style.setProperty("--dy", dy + "px");
-    s.style.setProperty("--r", rot + "deg");
-    s.style.setProperty("--dur", dur.toFixed(0) + "ms");
+          <p class="subtitle" id="inviteExtra" style="margin-top:12px;">
+            Ven a celebrar, reír, comer algo rico y vivir la sorpresa 🎊
+          </p>
 
-    fxLayer.appendChild(s);
-    setTimeout(()=>s.remove(), dur + 80);
-  }
-}
-function centerOf(el){
-  const r = el.getBoundingClientRect();
-  return { x: r.left + r.width/2, y: r.top + r.height/2 };
-}
+          <div class="tiny">Desliza hacia abajo para ver los detalles ↓</div>
+        </div>
 
-/* Open */
-let opened = false;
-seal.addEventListener("click", () => {
-  const c = centerOf(seal);
-  burstAt(c.x, c.y, 30);
+        <div class="photo-row" aria-hidden="true">
+          <div class="photo-card">
+            <svg class="art" viewBox="0 0 800 420" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <linearGradient id="g1" x1="0" x2="1">
+                  <stop offset="0" stop-color="rgba(217,188,162,.55)"/>
+                  <stop offset="1" stop-color="rgba(181,140,106,.35)"/>
+                </linearGradient>
+                <radialGradient id="r1" cx="50%" cy="20%" r="80%">
+                  <stop offset="0" stop-color="rgba(255,255,255,.8)"/>
+                  <stop offset="1" stop-color="rgba(255,255,255,0)"/>
+                </radialGradient>
+              </defs>
+              <rect width="800" height="420" fill="url(#g1)"/>
+              <circle cx="180" cy="120" r="120" fill="url(#r1)"/>
+              <circle cx="640" cy="100" r="140" fill="url(#r1)" opacity=".8"/>
+              <path d="M240 290c70-80 120-110 160-110s90 30 160 110" fill="none" stroke="rgba(59,47,42,.28)" stroke-width="14" stroke-linecap="round"/>
+              <path d="M330 185c-10-34 12-62 48-62s58 28 48 62" fill="none" stroke="rgba(59,47,42,.22)" stroke-width="12" stroke-linecap="round"/>
+              <path d="M470 185c-10-34 12-62 48-62s58 28 48 62" fill="none" stroke="rgba(59,47,42,.22)" stroke-width="12" stroke-linecap="round" opacity=".9"/>
+              <path d="M385 255c18 18 36 18 54 0" fill="none" stroke="rgba(59,47,42,.25)" stroke-width="10" stroke-linecap="round"/>
+              <circle cx="430" cy="240" r="22" fill="rgba(255,255,255,.45)"/>
+            </svg>
+            <div class="caption">Un momento para celebrar en familia 🤍</div>
+          </div>
 
-  if(opened) return;
-  opened = true;
+          <div class="photo-card">
+            <svg class="art" viewBox="0 0 800 420" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <linearGradient id="g2" x1="0" x2="1">
+                  <stop offset="0" stop-color="rgba(181,140,106,.35)"/>
+                  <stop offset="1" stop-color="rgba(217,188,162,.55)"/>
+                </linearGradient>
+                <radialGradient id="r2" cx="50%" cy="50%" r="70%">
+                  <stop offset="0" stop-color="rgba(255,255,255,.85)"/>
+                  <stop offset="1" stop-color="rgba(255,255,255,0)"/>
+                </radialGradient>
+              </defs>
+              <rect width="800" height="420" fill="url(#g2)"/>
+              <rect x="120" y="70" width="560" height="280" rx="26" fill="rgba(255,255,255,.38)" stroke="rgba(255,255,255,.55)" stroke-width="2"/>
+              <circle cx="400" cy="210" r="140" fill="rgba(255,255,255,.22)"/>
+              <circle cx="400" cy="210" r="130" fill="url(#r2)" opacity=".9"/>
+              <path d="M300 245c30-70 70-110 120-110s90 40 120 110c-60 55-120 72-240 0z"
+                    fill="rgba(59,47,42,.22)"/>
+              <circle cx="390" cy="210" r="10" fill="rgba(255,255,255,.45)"/>
+              <circle cx="440" cy="210" r="10" fill="rgba(255,255,255,.45)"/>
+              <path d="M410 240c10 10 22 10 32 0" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="6" stroke-linecap="round"/>
+              <path d="M160 310h480" stroke="rgba(255,255,255,.55)" stroke-width="2" opacity=".7"/>
+              <path d="M160 100h240" stroke="rgba(255,255,255,.55)" stroke-width="2" opacity=".7"/>
+            </svg>
+            <div class="caption">La sorpresa más linda está por llegar 👶✨</div>
+          </div>
+        </div>
+      </div>
 
-  sealWrap.classList.add("hide");
+      <!-- DETAILS -->
+      <section class="section" id="details">
+        <div class="section-head">
+          <div class="badge-ico">🗓️</div>
+          <h2 class="section-title">Detalles</h2>
+        </div>
 
-  invite.style.display = "block";
-  invite.classList.add("show");
-  invite.setAttribute("aria-hidden", "false");
+        <div class="grid2">
+          <div class="box">
+            <div class="label">📅 Fecha</div>
+            <div class="value" id="dateLong">Viernes | 28 | Febrero</div>
+            <div class="value small" id="timeText">Hora: 15:00</div>
 
-  requestAnimationFrame(() => {
-    invite.classList.add("open");
-  });
+            <!-- ✅ Conteo regresivo AHORA va después de la fecha -->
+            <div class="countdown-wrap">
+              <div class="countdown-big" id="countdown">-- : -- : -- : --</div>
+              <div class="countdown-sub" id="countdownSub">Días : Horas : Minutos : Segundos</div>
+            </div>
+          </div>
 
-  setTimeout(() => burstAt(c.x, c.y, 18), 220);
-});
+          <div class="box">
+            <div class="label">📍 Lugar</div>
+            <div class="value" id="placeText">Tumbaco</div>
+            <div class="value small" id="addressText">Dirección: Gonzalo Pizarro & C. Rumiñahui</div>
+          </div>
+        </div>
 
-/* init */
-invite.style.display = "none";
-</script>
+        <div class="action-row">
+          <a class="btn primary icon" id="gmapsBtn" target="_blank" rel="noopener"
+             style="text-decoration:none;" aria-label="Abrir ubicación">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+              <path fill="currentColor" d="M12 22s7-6.1 7-12.2C19 5.5 15.9 2.5 12 2.5S5 5.5 5 9.8C5 15.9 12 22 12 22zm0-9.5a2.7 2.7 0 1 1 0-5.4 2.7 2.7 0 0 1 0 5.4z"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section-head" style="margin-top:0;">
+          <div class="badge-ico">🤍</div>
+          <h3 class="section-title" style="margin:0;">Código de vestimenta</h3>
+        </div>
+        <p class="subtitle" id="dressText">¡Vístete de neutros para ser parte de este momento especial!</p>
+      </section>
+
+      <!-- GIFT -->
+      <section class="section center" id="gift">
+        <div class="section-head">
+          <div class="badge-ico">🎁</div>
+          <h2 class="section-title">Regalo</h2>
+        </div>
+
+        <p class="subtitle">¿Te animas a adivinar? Si crees que es…</p>
+
+        <div class="grid2" style="margin-top:14px;">
+          <div class="box">
+            <div class="label">🧸 Team Niño</div>
+            <div class="value" id="giftBoy">Trae Pampers</div>
+            <div class="value small">Sugerencia: talla y marca a tu gusto ✨</div>
+          </div>
+          <div class="box">
+            <div class="label">🎀 Team Niña</div>
+            <div class="value" id="giftGirl">Trae toallitas húmedas</div>
+            <div class="value small">Sugerencia: hipoalergénicas si puedes 🤍</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PREDICTION -->
+      <section class="section center" id="prediction">
+        <div class="section-head">
+          <div class="badge-ico">🗳️</div>
+          <h2 class="section-title">¿Cuál es tu predicción?</h2>
+        </div>
+
+        <p class="subtitle">Selecciona el botón de tu predicción</p>
+
+        <div class="vote-wrap">
+          <div class="vote-card">
+            <div class="vote-emoji">🧸🎈</div>
+            <div class="vote-title">Niño</div>
+            <button class="btn primary" id="voteBoy">Votar Niño</button>
+          </div>
+
+          <div class="vote-card">
+            <div class="vote-emoji">🧸🎀</div>
+            <div class="vote-title">Niña</div>
+            <button class="btn primary" id="voteGirl">Votar Niña</button>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section-head" style="margin-bottom:6px;">
+          <div class="badge-ico">📊</div>
+          <h3 class="section-title" style="margin:0;">Resultados</h3>
+        </div>
+
+        <div class="result-row">
+          <div class="bubble" id="bubbleBoy">
+            <div class="pct" id="pctBoy">0%</div>
+            <div class="cap">Niño</div>
+          </div>
+          <div class="bubble" id="bubbleGirl">
+            <div class="pct" id="pctGirl">0%</div>
+            <div class="cap">Niña</div>
+          </div>
+        </div>
+
+        <div class="tiny" id="yourVoteHint"></div>
+      </section>
+
+      <!-- RSVP -->
+      <section class="section center" id="rsvp">
+        <div class="section-head">
+          <div class="badge-ico">💌</div>
+          <h2 class="section-title">¡Será un día muy especial!</h2>
+        </div>
+
+        <p class="subtitle" id="rsvpText">¿Nos acompañarás? Por favor confirma tu asistencia.</p>
+
+        <div class="action-row" style="margin-top:14px;">
+          <a class="btn primary" id="rsvpBtn" target="_blank" rel="noopener" style="text-decoration:none;">
+            Confirmar aquí
+          </a>
+        </div>
+
+        <div class="tiny">Hecho con cariño 🤍</div>
+      </section>
+
+    </div>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+  const CONFIG = {
+    coverMsg: "Hay una noticia hermosa y queremos compartir este momento contigo.",
+    event: { month: 2, day: 28, hour: 15, minute: 0 },
+    googleMapsUrl: "https://maps.app.goo.gl/7CR78W1XiU7DzgZH6",
+    rsvpUrl: ""
+  };
+
+  // ===== MENSAJE DE WHATSAPP (ANTI-ERRORES DE EMOJI) =====
+  const WA_PHONE = "593963837148";
+
+  const WA_TEXT =
+    "¡Hola! " + String.fromCodePoint(0x1F49B) + "\n\n" +
+    "Quiero confirmar mi asistencia a su revelación de género " +
+    String.fromCodePoint(0x1F389, 0x1F476) + "\n\n" +
+    "Nos vemos el 28 de febrero a las 15:00 en Tumbaco. " +
+    String.fromCodePoint(0x1F4CD) + "\n\n" +
+    "¡Gracias por la invitación! " +
+    String.fromCodePoint(0x2728);
+
+  CONFIG.rsvpUrl = `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(WA_TEXT)}`;
+
+  $("coverMsg").textContent = CONFIG.coverMsg;
+  $("gmapsBtn").href = CONFIG.googleMapsUrl;
+  $("rsvpBtn").href = CONFIG.rsvpUrl;
+
+  console.log(WA_TEXT);
+
+    function burstEmoji({emoji, x, y, count=12}){
+      const fxLayer = $("fxLayer");
+      for(let i=0;i<count;i++){
+        const s = document.createElement("span");
+        s.className = "fx";
+        s.textContent = emoji;
+
+        const dx = (Math.random()*2 - 1) * 180;
+        const dy = - (70 + Math.random()*180);
+        const rot = (Math.random()*2 - 1) * 45;
+        const sc  = 1 + Math.random()*0.6;
+        const dur = 650 + Math.random()*650;
+
+        s.style.setProperty("--x", x + "px");
+        s.style.setProperty("--y", y + "px");
+        s.style.setProperty("--dx", dx + "px");
+        s.style.setProperty("--dy", dy + "px");
+        s.style.setProperty("--rot", rot + "deg");
+        s.style.setProperty("--s", sc.toFixed(2));
+        s.style.setProperty("--dur", dur.toFixed(0) + "ms");
+
+        fxLayer.appendChild(s);
+        setTimeout(() => s.remove(), dur + 60);
+      }
+    }
+
+    const cover = $("cover");
+    const mainCard = $("mainCard");
+
+    function openInvite(){
+      burstEmoji({emoji:"✨", x: innerWidth/2, y: 180, count: 14});
+      burstEmoji({emoji:"🧸", x: innerWidth/2, y: 180, count: 8});
+      burstEmoji({emoji:"🤍", x: innerWidth/2, y: 180, count: 10});
+
+      cover.classList.add("hide");
+      requestAnimationFrame(() => mainCard.classList.add("reveal"));
+      setTimeout(()=> cover.remove(), 850);
+
+      document.querySelector("#invite").scrollIntoView({behavior:"smooth", block:"start"});
+    }
+    $("coverOpen").addEventListener("click", openInvite);
+
+    function pad2(n){ return String(n).padStart(2,"0"); }
+
+    function getTargetDate(){
+      const now = new Date();
+      let year = now.getFullYear();
+      const m = CONFIG.event.month - 1;
+      let target = new Date(year, m, CONFIG.event.day, CONFIG.event.hour, CONFIG.event.minute, 0);
+      if(target.getTime() < now.getTime()){
+        target = new Date(year + 1, m, CONFIG.event.day, CONFIG.event.hour, CONFIG.event.minute, 0);
+      }
+      return target;
+    }
+
+    const target = getTargetDate();
+
+    function tickCountdown(){
+      const el = $("countdown");
+      const sub = $("countdownSub");
+      if(!el) return;
+
+      const now = new Date();
+      let diff = target.getTime() - now.getTime();
+
+      if(diff <= 0){
+        el.textContent = "00 : 00 : 00 : 00";
+        if(sub) sub.textContent = "¡Hoy es el día! 🎉";
+        return;
+      }
+
+      const totalSeconds = Math.floor(diff / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const mins = Math.floor((totalSeconds % 3600) / 60);
+      const secs = totalSeconds % 60;
+
+      el.textContent = `${pad2(days)} : ${pad2(hours)} : ${pad2(mins)} : ${pad2(secs)}`;
+      if(sub) sub.textContent = "Días : Horas : Minutos : Segundos";
+    }
+    tickCountdown();
+    setInterval(tickCountdown, 1000);
+
+    const KEY = "gender_invite_votes_v3";
+    const YOU = "gender_invite_your_vote_v3";
+
+    function getVotes(){
+      try{
+        const raw = localStorage.getItem(KEY);
+        if(!raw) return {boy:0, girl:0};
+        const v = JSON.parse(raw);
+        return { boy: Number(v.boy||0), girl: Number(v.girl||0) };
+      }catch(e){
+        return {boy:0, girl:0};
+      }
+    }
+    function setVotes(v){ localStorage.setItem(KEY, JSON.stringify(v)); }
+    function setYourVote(val){ localStorage.setItem(YOU, val); }
+    function getYourVote(){ return localStorage.getItem(YOU) || ""; }
+
+    function applySelectedBubble(me){
+      const bBoy = $("bubbleBoy");
+      const bGirl = $("bubbleGirl");
+      bBoy.classList.toggle("selected", me === "boy");
+      bGirl.classList.toggle("selected", me === "girl");
+    }
+
+    function renderVotes(){
+      const v = getVotes();
+      const total = v.boy + v.girl;
+      const pb = total ? Math.round((v.boy/total)*100) : 0;
+      const pg = total ? 100 - pb : 0;
+
+      $("pctBoy").textContent = pb + "%";
+      $("pctGirl").textContent = pg + "%";
+
+      const me = getYourVote();
+      if(me){
+        $("yourVoteHint").textContent = `Tu predicción: ${me === "boy" ? "Niño 🧸🎈" : "Niña 🧸🎀"} (voto registrado)`;
+        $("voteBoy").disabled = true;
+        $("voteGirl").disabled = true;
+      }else{
+        $("yourVoteHint").textContent = "Aún no has votado 🙂";
+        $("voteBoy").disabled = false;
+        $("voteGirl").disabled = false;
+      }
+
+      applySelectedBubble(me);
+    }
+
+    function softWarn(msg){
+      $("yourVoteHint").textContent = msg;
+      burstEmoji({emoji:"🙈", x: innerWidth/2, y: innerHeight/2, count: 10});
+    }
+
+    function vote(which){
+      const existing = getYourVote();
+      if(existing){
+        softWarn("Ya registraste tu voto en este dispositivo ✅");
+        return;
+      }
+
+      const v = getVotes();
+      if(which === "boy") v.boy += 1;
+      if(which === "girl") v.girl += 1;
+      setVotes(v);
+      setYourVote(which);
+
+      const c = {x: innerWidth/2, y: innerHeight/2};
+      burstEmoji({emoji: which==="boy" ? "🧢" : "🎀", x:c.x, y:c.y, count: 14});
+      burstEmoji({emoji: "✨", x:c.x, y:c.y, count: 10});
+      burstEmoji({emoji: "🧸", x:c.x, y:c.y, count: 8});
+
+      renderVotes();
+    }
+
+    $("voteBoy").addEventListener("click", ()=> vote("boy"));
+    $("voteGirl").addEventListener("click", ()=> vote("girl"));
+
+    renderVotes();
+  </script>
+
 </body>
 </html>
