@@ -14,11 +14,15 @@
       --line:#e6ddd3;
       --shadow:0 18px 50px rgba(46,31,23,.12);
       --accent:#b58c6a;
-      --accent2:#d9bca2;
       --btnText:#fff;
       --radius:26px;
       --glass: rgba(255,255,255,.70);
-      --ring: rgba(181,140,106,.18);
+
+      /* timeline (elegante) */
+      --tlLine: rgba(181,140,106,.75);
+      --tlDot: rgba(181,140,106,.95);
+      --tlIconBg: rgba(181,140,106,.95);
+      --tlIconFg:#fff;
     }
 
     *{box-sizing:border-box}
@@ -56,9 +60,6 @@
       position:relative;
     }
 
-    /* =========================
-       CARDS (cada sección = card)
-       ========================= */
     .card{
       background: var(--paper);
       border:1px solid var(--line);
@@ -68,9 +69,9 @@
       overflow:hidden;
       position:relative;
 
-      transform: translateY(10px) scale(.985);
+      transform: translateY(12px) scale(.985);
       opacity: .01;
-      filter: blur(10px);
+      filter: blur(12px);
       transition: transform .75s cubic-bezier(.2,.9,.2,1),
                   opacity .75s ease,
                   filter .75s ease;
@@ -81,7 +82,6 @@
       filter: blur(0);
     }
 
-    /* Fondo elegante con círculos suaves (default) */
     .card::before{
       content:"";
       position:absolute;
@@ -95,36 +95,8 @@
     }
     .card > *{ position:relative; z-index:1; }
 
-    /* Variantes PRO */
-    .card.alt-1::before{
-      background:
-        radial-gradient(340px 340px at 18% 18%, rgba(217,188,162,.30), transparent 72%),
-        radial-gradient(460px 460px at 92% 10%, rgba(181,140,106,.18), transparent 76%),
-        radial-gradient(520px 520px at 50% 120%, rgba(217,188,162,.16), transparent 78%);
-    }
-    .card.alt-2::before{
-      background:
-        radial-gradient(300px 300px at 10% 30%, rgba(181,140,106,.22), transparent 72%),
-        radial-gradient(520px 520px at 90% 120%, rgba(217,188,162,.20), transparent 80%),
-        radial-gradient(360px 360px at 85% 18%, rgba(217,188,162,.14), transparent 74%);
-    }
-    .card.alt-3::before{
-      background:
-        radial-gradient(420px 420px at 15% 120%, rgba(217,188,162,.22), transparent 78%),
-        radial-gradient(320px 320px at 92% 26%, rgba(181,140,106,.18), transparent 74%),
-        radial-gradient(260px 260px at 20% 18%, rgba(217,188,162,.16), transparent 72%);
-    }
-
-    /* Separación visual entre cards */
-    .stack{
-      display:grid;
-      gap:16px;
-    }
-
-    /* Padding de secciones dentro de card */
-    .section{
-      padding: 26px 22px;
-    }
+    .stack{ display:grid; gap:16px; }
+    .section{ padding: 26px 22px; }
 
     .section-head{
       display:flex;
@@ -166,13 +138,6 @@
       font-size: 14.5px;
     }
 
-    .divider{
-      height:1px;
-      background: linear-gradient(90deg, transparent, var(--line), transparent);
-      margin: 18px auto;
-      width:min(560px, 92%);
-    }
-
     .btn{
       border:0;
       cursor:pointer;
@@ -192,8 +157,6 @@
       color: var(--btnText);
       box-shadow: 0 14px 32px rgba(181,140,106,.28);
     }
-    .btn:disabled{ opacity:.6; cursor:not-allowed; }
-
     .btn.icon{
       width: 52px;
       height: 46px;
@@ -287,8 +250,6 @@
       line-height:1.5;
       font-size: 14px;
     }
-
-    /* Botón flecha */
     .arrow-btn{
       margin-top: 10px;
       width: 64px;
@@ -374,7 +335,13 @@
       background: rgba(255,255,255,.72);
       box-shadow: 0 18px 40px rgba(46,31,23,.08);
       position:relative;
-      min-height: 190px;
+      min-height: 210px;
+    }
+    .photo-card img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
     }
     .photo-card .caption{
       position:absolute;
@@ -389,8 +356,8 @@
       box-shadow: 0 14px 28px rgba(46,31,23,.06);
       backdrop-filter: blur(10px);
       font-size: 13px;
+      text-align:center;
     }
-    .photo-card .art{ width:100%; height:100%; display:block; }
 
     .grid2{
       display:grid;
@@ -483,118 +450,218 @@
       letter-spacing:.2px;
     }
 
-    /* Voting */
-    .vote-wrap{
+    /* TIMELINE libre */
+    .tl{
+      position:relative;
+      margin-top: 14px;
+      padding: 8px 0 6px;
+    }
+    .tl::before{
+      content:"";
+      position:absolute;
+      left: 92px;
+      top: 6px;
+      bottom: 6px;
+      width: 3px;
+      background: var(--tlLine);
+      border-radius: 999px;
+      opacity:.95;
+      box-shadow: 0 14px 28px rgba(181,140,106,.12);
+    }
+    .tl-item{
+      display:grid;
+      grid-template-columns: 70px 30px 1fr;
+      gap: 10px;
+      align-items:start;
+      padding: 10px 0;
+      position:relative;
+    }
+    .tl-time{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-weight: 950;
+      color: rgba(59,47,42,.92);
+      font-size: 13px;
+      line-height: 1.1;
+      text-align:right;
+      padding-top: 4px;
+    }
+    .tl-mid{
+      position:relative;
+      height: 100%;
+      display:flex;
+      justify-content:center;
+    }
+    .tl-dot{
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      background: var(--tlDot);
+      box-shadow: 0 12px 20px rgba(181,140,106,.22);
+      border: 2px solid rgba(255,255,255,.95);
+      margin-top: 4px;
+      z-index:2;
+    }
+    .tl-icon{
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      display:grid;
+      place-items:center;
+      background: var(--tlIconBg);
+      color: var(--tlIconFg);
+      box-shadow: 0 12px 20px rgba(181,140,106,.22);
+      border: 2px solid rgba(255,255,255,.95);
+      margin-top: 0px;
+      z-index:2;
+    }
+    .tl-card{
+      border-radius: 14px;
+      padding: 8px 10px;
+      background: rgba(255,255,255,.78);
+      border: 1px solid rgba(230,221,211,.85);
+      box-shadow: 0 12px 24px rgba(46,31,23,.04);
+    }
+    .tl-title{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 950;
+      font-size: 13.5px;
+      margin: 0 0 2px;
+      color: rgba(59,47,42,.95);
+      letter-spacing: .1px;
+    }
+    .tl-sub{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 750;
+      font-size: 12.5px;
+      margin: 0;
+      color: rgba(107,91,84,.86);
+      line-height:1.35;
+    }
+    .tl-meta{
+      margin-top: 6px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 900;
+      font-size: 11px;
+      color: rgba(107,91,84,.75);
+      letter-spacing: .2px;
+    }
+
+    /* GALLERY: only images */
+    .galleryGrid{
+      margin-top: 14px;
       display:grid;
       grid-template-columns: 1fr 1fr;
-      gap:12px;
-      margin-top: 14px;
+      gap: 12px;
     }
-    .vote-card{
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.76);
-      border-radius: 22px;
-      padding: 16px;
-      text-align:center;
-      box-shadow: 0 18px 42px rgba(46,31,23,.06);
+    .gItem{
       position:relative;
+      border-radius: 18px;
       overflow:hidden;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      background: rgba(255,255,255,.08);
     }
-    .vote-card::before{
-      content:"";
+    .gMedia{
+      width:100%;
+      height: 220px;
+      display:block;
+      object-fit: cover;
+    }
+    @media (max-width: 520px){
+      .gMedia{ height: 210px; }
+    }
+    .gCap{
       position:absolute;
-      inset:-1px;
-      background: radial-gradient(420px 160px at 50% 0%, rgba(181,140,106,.10), transparent 62%);
-      pointer-events:none;
-    }
-    .vote-emoji{ position:relative; font-size: 44px; line-height:1; margin-top:2px; }
-    .vote-title{
-      position:relative;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      font-weight: 950;
-      margin: 10px 0 10px;
-      font-size: 16px;
-    }
-
-    @media (max-width: 420px){
-      .vote-card{ padding: 12px; border-radius: 18px; }
-      .vote-emoji{ font-size: 38px; }
-      .btn.primary{ padding: 10px 12px; border-radius: 12px; }
-      .section-title{ font-size: clamp(16px, 4.6vw, 26px); }
-    }
-
-    /* Results bubbles */
-    .result-row{
-      display:flex;
-      justify-content:center;
-      gap:18px;
-      flex-wrap:wrap;
-      margin-top: 14px;
-    }
-    .bubble{
-      width: 98px; height: 98px;
-      border-radius: 999px;
-      border:1px solid var(--line);
+      left:10px; right:10px; bottom:10px;
+      padding: 9px 10px;
+      border-radius: 14px;
       background: rgba(255,255,255,.78);
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      box-shadow: 0 14px 30px rgba(46,31,23,.08);
+      border:1px solid rgba(230,221,211,.9);
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      position:relative;
-      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-    }
-    .bubble::before{
-      content:"";
-      position:absolute;
-      inset:-8px;
-      border-radius:999px;
-      background: radial-gradient(circle at 50% 35%, var(--ring), transparent 60%);
-      opacity:.9;
-      pointer-events:none;
-    }
-    .bubble .pct{
-      font-weight: 950;
-      font-size: 22px;
-      color: var(--accent);
-      line-height:1;
-      transition: transform .25s ease;
-      position:relative;
-    }
-    .bubble .cap{
-      position:relative;
-      margin-top:6px;
-      font-size: 12px;
-      color: var(--muted);
       font-weight: 900;
-      letter-spacing:.15px;
+      color: rgba(107,91,84,.92);
+      box-shadow: 0 14px 28px rgba(46,31,23,.06);
+      backdrop-filter: blur(10px);
+      font-size: 12.5px;
+      text-align:center;
     }
-    .bubble.selected{
-      border-color: rgba(181,140,106,.75);
-      box-shadow:
-        0 18px 42px rgba(181,140,106,.22),
-        0 0 0 6px rgba(181,140,106,.14);
-      transform: translateY(-2px) scale(1.04);
+
+    /* Lightbox (hold preview) */
+    .lightbox{
+      position:fixed;
+      inset:0;
+      display:none;
+      place-items:center;
+      padding: 18px;
+      z-index:10000;
+      background: rgba(20,14,12,.55);
+      backdrop-filter: blur(8px);
     }
-    .bubble.selected .pct{ transform: scale(1.06); }
-    .bubble.selected::after{
-      content:"✓";
-      position:absolute;
-      top:-8px;
-      right:-8px;
-      width: 28px;
-      height: 28px;
-      border-radius: 999px;
+    .lightbox.show{ display:grid; }
+    .lb-card{
+      width:min(920px, 96vw);
+      max-height: 88vh;
+      border-radius: 22px;
+      overflow:hidden;
+      background: rgba(255,255,255,.90);
+      border:1px solid rgba(230,221,211,.9);
+      box-shadow: 0 26px 90px rgba(0,0,0,.22);
+      position:relative;
+      transform: translateY(8px) scale(.985);
+      opacity:.01;
+      filter: blur(10px);
+      transition: transform .25s cubic-bezier(.2,.9,.2,1), opacity .25s ease, filter .25s ease;
+    }
+    .lightbox.show .lb-card{
+      transform: translateY(0) scale(1);
+      opacity:1;
+      filter: blur(0);
+    }
+    .lb-top{
+      padding: 12px 14px;
       display:flex;
       align-items:center;
-      justify-content:center;
-      font-weight: 950;
+      justify-content:space-between;
+      gap:12px;
+      border-bottom:1px solid rgba(230,221,211,.9);
+      background: rgba(255,255,255,.72);
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: rgba(181,140,106,.95);
-      color: #fff;
-      box-shadow: 0 14px 28px rgba(46,31,23,.18);
-      z-index:2;
+      font-weight: 950;
+      color: rgba(59,47,42,.92);
+    }
+    .lb-title{
+      font-size: 13px;
+      letter-spacing:.2px;
+      color: rgba(107,91,84,.95);
+    }
+    .lb-body{
+      padding: 14px;
+      display:grid;
+      gap: 10px;
+      max-height: calc(88vh - 56px);
+      overflow:auto;
+    }
+    .lb-media{
+      border-radius: 18px;
+      overflow:hidden;
+      border:1px solid rgba(230,221,211,.9);
+      background: rgba(255,255,255,.72);
+      box-shadow: 0 18px 44px rgba(46,31,23,.08);
+    }
+    .lb-media img{
+      width:100%;
+      height:auto;
+      display:block;
+      object-fit: cover;
+    }
+    .lb-note{
+      text-align:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 900;
+      color: rgba(107,91,84,.82);
+      font-size: 12.5px;
+      line-height:1.35;
     }
 
     /* FX layer */
@@ -633,7 +700,6 @@
       margin-top: 14px;
     }
 
-    /* WhatsApp image button */
     .whatsapp-btn-img{
       width: 54px;
       height: 54px;
@@ -642,6 +708,7 @@
       align-items:center;
       justify-content:center;
       transition: transform .12s ease, filter .2s ease;
+      user-select:none;
     }
     .whatsapp-btn-img:hover{ filter: brightness(1.02); }
     .whatsapp-btn-img:active{ transform: scale(.95); }
@@ -667,18 +734,29 @@
 <body>
   <div class="fx-layer" id="fxLayer"></div>
 
+  <!-- LIGHTBOX (hold only) -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lb-card" role="dialog" aria-modal="true" aria-label="Foto ampliada">
+      <div class="lb-top">
+        <div class="lb-title" id="lbTitle">Foto</div>
+        <div style="font-size:12px;color:rgba(107,91,84,.85);font-family:system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;font-weight:900;">
+          (se cierra al soltar)
+        </div>
+      </div>
+      <div class="lb-body">
+        <div class="lb-media" id="lbMedia"></div>
+        <div class="lb-note">Mantén presionada la foto. Al soltar, se cierra.</div>
+      </div>
+    </div>
+  </div>
+
   <!-- COVER -->
   <div class="cover" id="cover">
     <div class="cover-card">
       <h1 class="cover-title">Tienes una invitación especial</h1>
       <div class="cover-sub">Toca el botón para abrirla 💌</div>
-
       <div class="icons">✉️ 🧸 👶</div>
-
-      <div class="cover-msg" id="coverMsg">
-        Hay una noticia hermosa y queremos compartir este momento contigo.
-      </div>
-
+      <div class="cover-msg" id="coverMsg">Hay una noticia hermosa y queremos compartir este momento contigo.</div>
       <button class="arrow-btn" id="coverOpen" aria-label="Abrir invitación">
         <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
           <path d="M8 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
@@ -688,11 +766,10 @@
   </div>
 
   <div class="container" id="app">
-    <!-- Stack de cards -->
     <div class="stack" id="stack">
 
-      <!-- 1) HERO -->
-      <section class="card alt-1 section" id="inviteCard">
+      <!-- 1) HERO (eco + foto5) -->
+      <section class="card section" id="inviteCard">
         <div class="center" id="invite">
           <h2 class="big-name" id="babyTitle">¡Revelación de Género!</h2>
           <div class="names script-names" id="parentsNames">Domenica y Richard</div>
@@ -715,62 +792,22 @@
 
           <div class="tiny">Desliza hacia abajo para ver los detalles ↓</div>
 
-          <div class="photo-row" aria-hidden="true">
+          <div class="photo-row" aria-hidden="false">
             <div class="photo-card">
-              <svg class="art" viewBox="0 0 800 420" preserveAspectRatio="xMidYMid slice">
-                <defs>
-                  <linearGradient id="g1" x1="0" x2="1">
-                    <stop offset="0" stop-color="rgba(217,188,162,.55)"/>
-                    <stop offset="1" stop-color="rgba(181,140,106,.35)"/>
-                  </linearGradient>
-                  <radialGradient id="r1" cx="50%" cy="20%" r="80%">
-                    <stop offset="0" stop-color="rgba(255,255,255,.8)"/>
-                    <stop offset="1" stop-color="rgba(255,255,255,0)"/>
-                  </radialGradient>
-                </defs>
-                <rect width="800" height="420" fill="url(#g1)"/>
-                <circle cx="180" cy="120" r="120" fill="url(#r1)"/>
-                <circle cx="640" cy="100" r="140" fill="url(#r1)" opacity=".8"/>
-                <path d="M240 290c70-80 120-110 160-110s90 30 160 110" fill="none" stroke="rgba(59,47,42,.28)" stroke-width="14" stroke-linecap="round"/>
-                <path d="M330 185c-10-34 12-62 48-62s58 28 48 62" fill="none" stroke="rgba(59,47,42,.22)" stroke-width="12" stroke-linecap="round"/>
-                <path d="M470 185c-10-34 12-62 48-62s58 28 48 62" fill="none" stroke="rgba(59,47,42,.22)" stroke-width="12" stroke-linecap="round" opacity=".9"/>
-                <path d="M385 255c18 18 36 18 54 0" fill="none" stroke="rgba(59,47,42,.25)" stroke-width="10" stroke-linecap="round"/>
-                <circle cx="430" cy="240" r="22" fill="rgba(255,255,255,.45)"/>
-              </svg>
-              <div class="caption">Un momento para celebrar en familia 🤍</div>
+              <img src="eco.jpg" alt="Eco del bebé">
+              <div class="caption">Nuestro pequeño milagro 🤍</div>
             </div>
 
             <div class="photo-card">
-              <svg class="art" viewBox="0 0 800 420" preserveAspectRatio="xMidYMid slice">
-                <defs>
-                  <linearGradient id="g2" x1="0" x2="1">
-                    <stop offset="0" stop-color="rgba(181,140,106,.35)"/>
-                    <stop offset="1" stop-color="rgba(217,188,162,.55)"/>
-                  </linearGradient>
-                  <radialGradient id="r2" cx="50%" cy="50%" r="70%">
-                    <stop offset="0" stop-color="rgba(255,255,255,.85)"/>
-                    <stop offset="1" stop-color="rgba(255,255,255,0)"/>
-                  </radialGradient>
-                </defs>
-                <rect width="800" height="420" fill="url(#g2)"/>
-                <rect x="120" y="70" width="560" height="280" rx="26" fill="rgba(255,255,255,.38)" stroke="rgba(255,255,255,.55)" stroke-width="2"/>
-                <circle cx="400" cy="210" r="140" fill="rgba(255,255,255,.22)"/>
-                <circle cx="400" cy="210" r="130" fill="url(#r2)" opacity=".9"/>
-                <path d="M300 245c30-70 70-110 120-110s90 40 120 110c-60 55-120 72-240 0z" fill="rgba(59,47,42,.22)"/>
-                <circle cx="390" cy="210" r="10" fill="rgba(255,255,255,.45)"/>
-                <circle cx="440" cy="210" r="10" fill="rgba(255,255,255,.45)"/>
-                <path d="M410 240c10 10 22 10 32 0" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="6" stroke-linecap="round"/>
-                <path d="M160 310h480" stroke="rgba(255,255,255,.55)" stroke-width="2" opacity=".7"/>
-                <path d="M160 100h240" stroke="rgba(255,255,255,.55)" stroke-width="2" opacity=".7"/>
-              </svg>
-              <div class="caption">La sorpresa más linda está por llegar 👶✨</div>
+              <img src="foto5.jpeg" alt="Foto 5">
+              <div class="caption">La cuenta regresiva empezó ✨</div>
             </div>
           </div>
         </div>
       </section>
 
       <!-- 2) DETALLES -->
-      <section class="card alt-2 section" id="details">
+      <section class="card section" id="details">
         <div class="section-head">
           <div class="badge-ico">🗓️</div>
           <h2 class="section-title">Detalles</h2>
@@ -805,8 +842,97 @@
         </div>
       </section>
 
-      <!-- 3) CÓDIGO DE VESTIMENTA -->
-      <section class="card alt-3 section" id="dress">
+      <!-- 3) ITINERARIO -->
+      <section class="card section" id="timeline">
+        <div class="section-head">
+          <div class="badge-ico">🕒</div>
+          <h2 class="section-title">Itinerario</h2>
+        </div>
+        <p class="subtitle">Orden del día (vertical).</p>
+
+        <div class="tl">
+          <div class="tl-item">
+            <div class="tl-time">15:00</div>
+            <div class="tl-mid">
+              <div class="tl-icon">
+                <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+                  <path fill="currentColor" d="M12 2l3 7h7l-5.6 4.1L18.8 21 12 16.9 5.2 21l2.4-7.9L2 9h7z"/>
+                </svg>
+              </div>
+            </div>
+            <div class="tl-card">
+              <div class="tl-title">Llegada & bienvenida</div>
+              <p class="tl-sub">Nos saludamos, fotos y snack para empezar.</p>
+              <div class="tl-meta">Tumbaco</div>
+            </div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-time">15:30</div>
+            <div class="tl-mid"><div class="tl-dot"></div></div>
+            <div class="tl-card">
+              <div class="tl-title">Dinámica / juegos</div>
+              <p class="tl-sub">Un ratito para reír y compartir.</p>
+            </div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-time">16:00</div>
+            <div class="tl-mid"><div class="tl-dot"></div></div>
+            <div class="tl-card">
+              <div class="tl-title">¡La revelación!</div>
+              <p class="tl-sub">El momento más esperado: He or She 💛</p>
+            </div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-time">16:15</div>
+            <div class="tl-mid"><div class="tl-dot"></div></div>
+            <div class="tl-card">
+              <div class="tl-title">Fotos & brindis</div>
+              <p class="tl-sub">Foto grupal y un brindis por el bebé 👶✨</p>
+            </div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-time">16:30+</div>
+            <div class="tl-mid"><div class="tl-dot"></div></div>
+            <div class="tl-card">
+              <div class="tl-title">Snack / cierre</div>
+              <p class="tl-sub">Conversar, comer algo rico y disfrutar.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4) GALERÍA (2x2: foto1..foto4, HOLD only) -->
+      <section class="card section" id="gallery">
+        <div class="section-head">
+          <div class="badge-ico">📸</div>
+          <h2 class="section-title">Galería</h2>
+        </div>
+        <p class="subtitle">Mantén presionada una foto para verla grande (hold) ✨</p>
+
+        <div class="galleryGrid" id="galleryGrid">
+          <div class="gItem" data-title="Foto 1">
+            <img class="gMedia" src="foto1.jpeg" alt="Foto 1">
+          </div>
+          <div class="gItem" data-title="Foto 2">
+            <img class="gMedia" src="foto2.jpeg" alt="Foto 2">
+          </div>
+          <div class="gItem" data-title="Foto 3">
+            <img class="gMedia" src="foto3.jpeg" alt="Foto 3">
+          </div>
+          <div class="gItem" data-title="Foto 4">
+            <img class="gMedia" src="foto4.jpeg" alt="Foto 4">
+          </div>
+        </div>
+
+        <div class="tiny">Solo se abre con HOLD. Click/tap no hace nada.</div>
+      </section>
+
+      <!-- 5) CÓDIGO DE VESTIMENTA -->
+      <section class="card section" id="dress">
         <div class="section-head">
           <div class="badge-ico">🤍</div>
           <h2 class="section-title">Código de vestimenta</h2>
@@ -814,8 +940,8 @@
         <p class="subtitle" id="dressText">¡Vístete de neutros para ser parte de este momento especial!</p>
       </section>
 
-      <!-- 4) REGALO -->
-      <section class="card alt-2 section" id="gift">
+      <!-- 6) REGALO -->
+      <section class="card section" id="gift">
         <div class="section-head">
           <div class="badge-ico">🎁</div>
           <h2 class="section-title">Regalo</h2>
@@ -837,52 +963,8 @@
         </div>
       </section>
 
-      <!-- 5) PREDICCIÓN + RESULTADOS -->
-      <section class="card alt-1 section" id="prediction">
-        <div class="section-head">
-          <div class="badge-ico">🗳️</div>
-          <h2 class="section-title">¿Cuál es tu predicción?</h2>
-        </div>
-
-        <p class="subtitle">Selecciona el botón de tu predicción</p>
-
-        <div class="vote-wrap">
-          <div class="vote-card">
-            <div class="vote-emoji">🧸🎈</div>
-            <div class="vote-title">Niño</div>
-            <button class="btn primary" id="voteBoy">Votar Niño</button>
-          </div>
-
-          <div class="vote-card">
-            <div class="vote-emoji">🧸🎀</div>
-            <div class="vote-title">Niña</div>
-            <button class="btn primary" id="voteGirl">Votar Niña</button>
-          </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="section-head" style="margin-bottom:6px;">
-          <div class="badge-ico">📊</div>
-          <h2 class="section-title" style="margin:0;">Resultados</h2>
-        </div>
-
-        <div class="result-row">
-          <div class="bubble" id="bubbleBoy">
-            <div class="pct" id="pctBoy">0%</div>
-            <div class="cap">Niño</div>
-          </div>
-          <div class="bubble" id="bubbleGirl">
-            <div class="pct" id="pctGirl">0%</div>
-            <div class="cap">Niña</div>
-          </div>
-        </div>
-
-        <div class="tiny" id="yourVoteHint"></div>
-      </section>
-
-      <!-- 6) RSVP -->
-      <section class="card alt-3 section" id="rsvp">
+      <!-- 7) RSVP -->
+      <section class="card section" id="rsvp">
         <div class="section-head">
           <div class="badge-ico">💌</div>
           <h2 class="section-title">¡Será un día muy especial!</h2>
@@ -891,8 +973,8 @@
         <p class="subtitle" id="rsvpText">¿Nos acompañarás? Por favor confirma tu asistencia.</p>
 
         <div class="section-head" style="margin-top:14px;">
-          <a class="whatsapp-btn-img" id="rsvpBtn" target="_blank" rel="noopener" aria-label="Confirmar por WhatsApp">
-            <img src="whatsapp.png" alt="WhatsApp">
+          <a class="whatsapp-btn-img" id="rsvpBtn" target="_blank" rel="noopener" aria-label="Confirmar por WhatsApp" title="Confirmar por WhatsApp">
+            <img src="whatsapp.png" alt="WhatsApp" onerror="this.remove(); this.parentElement.textContent='💬'; this.parentElement.style.fontSize='28px';">
           </a>
         </div>
 
@@ -929,63 +1011,41 @@
     $("gmapsBtn").href = CONFIG.googleMapsUrl;
     $("rsvpBtn").href = CONFIG.rsvpUrl;
 
-    // FX
-    function burstEmoji({emoji, x, y, count=12}){
-      const fxLayer = $("fxLayer");
-      for(let i=0;i<count;i++){
-        const s = document.createElement("span");
-        s.className = "fx";
-        s.textContent = emoji;
+    // Scroll reveal
+    function setupScrollReveal(){
+      const cards = document.querySelectorAll(".card");
+      cards.forEach(c => c.classList.remove("reveal"));
 
-        const dx = (Math.random()*2 - 1) * 180;
-        const dy = - (70 + Math.random()*180);
-        const rot = (Math.random()*2 - 1) * 45;
-        const sc  = 1 + Math.random()*0.6;
-        const dur = 650 + Math.random()*650;
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if(entry.isIntersecting){
+            entry.target.classList.add("reveal");
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.16 });
 
-        s.style.setProperty("--x", x + "px");
-        s.style.setProperty("--y", y + "px");
-        s.style.setProperty("--dx", dx + "px");
-        s.style.setProperty("--dy", dy + "px");
-        s.style.setProperty("--rot", rot + "deg");
-        s.style.setProperty("--s", sc.toFixed(2));
-        s.style.setProperty("--dur", dur.toFixed(0) + "ms");
-
-        fxLayer.appendChild(s);
-        setTimeout(() => s.remove(), dur + 60);
-      }
+      cards.forEach(c => obs.observe(c));
+      if(cards[0]) cards[0].classList.add("reveal");
     }
 
-    // Open invite: empezar desde el inicio (top)
+    // Open invite
     const cover = $("cover");
-
-    function openInvite(){
-      burstEmoji({emoji:"✨", x: innerWidth/2, y: 180, count: 14});
-      burstEmoji({emoji:"🧸", x: innerWidth/2, y: 180, count: 8});
-      burstEmoji({emoji:"🤍", x: innerWidth/2, y: 180, count: 10});
-
+    $("coverOpen").addEventListener("click", () => {
       cover.classList.add("hide");
       setTimeout(()=> cover.remove(), 850);
 
-      // ✅ arrancar desde arriba de la página
       window.scrollTo({ top: 0, behavior: "smooth" });
-
-      // ✅ mostrar cards con animación
-      document.querySelectorAll(".card").forEach((c, i) => {
-        setTimeout(()=> c.classList.add("reveal"), 60 + i*80);
-      });
-    }
-    $("coverOpen").addEventListener("click", openInvite);
+      setupScrollReveal();
+    });
 
     // Countdown
     function pad2(n){ return String(n).padStart(2,"0"); }
-
     function getTargetDate(){
       const m = CONFIG.event.month - 1;
       const y = CONFIG.event.year ?? new Date().getFullYear();
       return new Date(y, m, CONFIG.event.day, CONFIG.event.hour, CONFIG.event.minute, 0);
     }
-
     function tickCountdown(){
       const el = $("countdown");
       const sub = $("countdownSub");
@@ -1013,80 +1073,95 @@
     tickCountdown();
     setInterval(tickCountdown, 1000);
 
-    // Voting (local)
-    const KEY = "gender_invite_votes_v3";
-    const YOU = "gender_invite_your_vote_v3";
+    // HOLD-ONLY GALLERY
+    const lightbox = $("lightbox");
+    const lbMedia  = $("lbMedia");
+    const lbTitle  = $("lbTitle");
 
-    function getVotes(){
-      try{
-        const raw = localStorage.getItem(KEY);
-        if(!raw) return {boy:0, girl:0};
-        const v = JSON.parse(raw);
-        return { boy: Number(v.boy||0), girl: Number(v.girl||0) };
-      }catch(e){
-        return {boy:0, girl:0};
-      }
-    }
-    function setVotes(v){ localStorage.setItem(KEY, JSON.stringify(v)); }
-    function setYourVote(val){ localStorage.setItem(YOU, val); }
-    function getYourVote(){ return localStorage.getItem(YOU) || ""; }
+    let holdTimer = null;
+    let holding = false;
+    let opened = false;
 
-    function applySelectedBubble(me){
-      $("bubbleBoy").classList.toggle("selected", me === "boy");
-      $("bubbleGirl").classList.toggle("selected", me === "girl");
-    }
+    function openFromItem(item){
+      const title = item.getAttribute("data-title") || "Foto";
+      lbTitle.textContent = title;
+      lbMedia.innerHTML = "";
 
-    function renderVotes(){
-      const v = getVotes();
-      const total = v.boy + v.girl;
-      const pb = total ? Math.round((v.boy/total)*100) : 0;
-      const pg = total ? 100 - pb : 0;
-
-      $("pctBoy").textContent = pb + "%";
-      $("pctGirl").textContent = pg + "%";
-
-      const me = getYourVote();
-      if(me){
-        $("yourVoteHint").textContent = `Tu predicción: ${me === "boy" ? "Niño 🧸🎈" : "Niña 🧸🎀"} (voto registrado)`;
-        $("voteBoy").disabled = true;
-        $("voteGirl").disabled = true;
-      }else{
-        $("yourVoteHint").textContent = "Aún no has votado 🙂";
-        $("voteBoy").disabled = false;
-        $("voteGirl").disabled = false;
-      }
-      applySelectedBubble(me);
-    }
-
-    function softWarn(msg){
-      $("yourVoteHint").textContent = msg;
-      burstEmoji({emoji:"🙈", x: innerWidth/2, y: innerHeight/2, count: 10});
-    }
-
-    function vote(which){
-      const existing = getYourVote();
-      if(existing){
-        softWarn("Ya registraste tu voto en este dispositivo ✅");
-        return;
+      const img = item.querySelector("img");
+      if(img){
+        const clone = img.cloneNode(true);
+        clone.removeAttribute("class");
+        clone.style.width = "100%";
+        clone.style.height = "auto";
+        clone.style.display = "block";
+        lbMedia.appendChild(clone);
       }
 
-      const v = getVotes();
-      if(which === "boy") v.boy += 1;
-      if(which === "girl") v.girl += 1;
-      setVotes(v);
-      setYourVote(which);
-
-      const c = {x: innerWidth/2, y: innerHeight/2};
-      burstEmoji({emoji: which==="boy" ? "🧢" : "🎀", x:c.x, y:c.y, count: 14});
-      burstEmoji({emoji: "✨", x:c.x, y:c.y, count: 10});
-      burstEmoji({emoji: "🧸", x:c.x, y:c.y, count: 8});
-
-      renderVotes();
+      lightbox.classList.add("show");
+      lightbox.setAttribute("aria-hidden", "false");
+      opened = true;
     }
 
-    $("voteBoy").addEventListener("click", ()=> vote("boy"));
-    $("voteGirl").addEventListener("click", ()=> vote("girl"));
-    renderVotes();
+    function closeBox(){
+      lightbox.classList.remove("show");
+      lightbox.setAttribute("aria-hidden", "true");
+      lbMedia.innerHTML = "";
+      opened = false;
+    }
+
+    function clearHold(){
+      holding = false;
+      if(holdTimer){
+        clearTimeout(holdTimer);
+        holdTimer = null;
+      }
+    }
+
+    function blockClick(e){
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
+
+    document.querySelectorAll(".gItem").forEach((item) => {
+      item.addEventListener("contextmenu", (e) => { e.preventDefault(); });
+      item.addEventListener("click", blockClick);
+
+      item.addEventListener("pointerdown", (e) => {
+        if(e.pointerType === "mouse" && e.button !== 0) return;
+        holding = true;
+        opened = false;
+
+        holdTimer = setTimeout(() => {
+          if(!holding) return;
+          openFromItem(item);
+        }, 150);
+
+        item.setPointerCapture?.(e.pointerId);
+      });
+
+      item.addEventListener("pointerup", () => {
+        clearHold();
+        if(opened) closeBox();
+      });
+
+      item.addEventListener("pointercancel", () => {
+        clearHold();
+        if(opened) closeBox();
+      });
+
+      item.addEventListener("pointerleave", () => {
+        if(holding){
+          clearHold();
+          if(opened) closeBox();
+        }
+      });
+    });
+
+    window.addEventListener("pointerup", () => {
+      clearHold();
+      if(opened) closeBox();
+    });
   </script>
 </body>
 </html>
