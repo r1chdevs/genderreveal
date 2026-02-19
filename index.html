@@ -563,7 +563,6 @@
         <div class="center" id="invite">
           <h2 class="big-name" id="babyTitle">¡Revelación de Género!</h2>
 
-          <!-- ✅ NOMBRES ACTUALIZADOS -->
           <div class="names script-names" id="parentsNames">Joseline Andrade y Fernando García</div>
 
           <p class="subtitle" id="inviteText">
@@ -604,7 +603,8 @@
           <div class="box">
             <div class="label">📅 Fecha</div>
             <div class="value" id="dateLong">Sábado | 28 | Febrero</div>
-            <div class="value small" id="timeText">Hora: 15:00</div>
+            <!-- ✅ HORA ACTUALIZADA -->
+            <div class="value small" id="timeText">Hora: 10:00</div>
 
             <div class="countdown-wrap">
               <div class="countdown-title">✨ Solo falta… ✨</div>
@@ -680,7 +680,7 @@
           <div class="box">
             <div class="label">💙 Si tu corazón dice NIÑO</div>
             <div class="value small" style="margin:0;">
-              Puedes traer <b>enteritos</b>, <b>pijamitas</b> o <b>gorritos</b>.
+              Puedes traer <b>enterizos</b>, <b>pijamitas</b> o <b>gorritos</b>.
             </div>
           </div>
         </div>
@@ -720,7 +720,8 @@
 
     const CONFIG = {
       coverMsg: "Hay una noticia hermosa y queremos compartir este momento contigo.",
-      event: { year: 2026, month: 2, day: 28, hour: 15, minute: 0 },
+      // ✅ EVENTO A LAS 10:00 AM
+      event: { year: 2026, month: 2, day: 28, hour: 10, minute: 0 },
       googleMapsUrl: "https://www.google.com/maps/search/Prados+de+San+Mateo/@-0.149209,-78.4681168,17z?hl=en&entry=ttu&g_ep=EgoyMDI2MDIxNi4wIKXMDSoASAFQAw%3D%3D",
       rsvpUrl: ""
     };
@@ -731,7 +732,7 @@
       "¡Hola! " + String.fromCodePoint(0x1F49B) + "\n\n" +
       "Quiero confirmar mi asistencia a su revelación de género " +
       String.fromCodePoint(0x1F389, 0x1F476) + "\n\n" +
-      "Nos vemos el sábado 28 de febrero a las 15:00 en Prados San Mateo, torre A (Quito). " +
+      "Nos vemos el sábado 28 de febrero a las 10:00 en Prados San Mateo, torre A (Quito). " +
       String.fromCodePoint(0x1F4CD) + "\n\n" +
       "¡Gracias por la invitación! " +
       String.fromCodePoint(0x2728);
@@ -881,7 +882,7 @@
         autoTimer = setInterval(() => {
           index = (index + 1) % slides.length;
           update();
-        }, 1500);
+        }, 2000);
       }
       function restartAuto(){
         startAuto();
